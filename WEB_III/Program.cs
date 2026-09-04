@@ -1,26 +1,39 @@
+using WEB_III.Repositories.Implementations;
+using WEB_III.Repositories.Interfaces;
+using WEB_III.Services.Implementations;
+using WEB_III.Services.Interfaces;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// ── Razor Pages ────────────────────────────────────────────────────────────
 builder.Services.AddRazorPages();
+
+// ── Repositorios (Singleton para persistir datos en memoria) ───────────────
+builder.Services.AddSingleton<IPropietarioRepository, PropietarioRepository>();
+builder.Services.AddSingleton<IMascotaRepository,     MascotaRepository>();
+builder.Services.AddSingleton<IVeterinarioRepository, VeterinarioRepository>();
+builder.Services.AddSingleton<ICitaRepository,        CitaRepository>();
+
+// ── Servicios ──────────────────────────────────────────────────────────────
+builder.Services.AddScoped<IPropietarioService, PropietarioService>();
+builder.Services.AddScoped<IMascotaService,     MascotaService>();
+builder.Services.AddScoped<IVeterinarioService, VeterinarioService>();
+builder.Services.AddScoped<ICitaService,        CitaService>();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// ── Pipeline ───────────────────────────────────────────────────────────────
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
 app.UseHttpsRedirection();
-
 app.UseRouting();
-
 app.UseAuthorization();
 
 app.MapStaticAssets();
-app.MapRazorPages()
-   .WithStaticAssets();
+app.MapRazorPages().WithStaticAssets();
 
 app.Run();
