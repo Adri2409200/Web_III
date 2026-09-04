@@ -1,0 +1,18 @@
+@* Partial view reutilizable para mostrar alertas de éxito/error/info.
+   Uso: @await Html.PartialAsync("_Alerta", ("success","Operación exitosa."))
+   Tipos válidos: success | danger | info *@
+
+@model (string Tipo, string Mensaje)
+
+@if (!string.IsNullOrWhiteSpace(Model.Mensaje))
+{
+    <div class="alert alert-aa-@Model.Tipo alert-dismissible fade show d-flex align-items-center gap-2 rounded-3"
+         role="alert">
+        @if (Model.Tipo == "success") { <span>✅</span> }
+        else if (Model.Tipo == "danger") { <span>❌</span> }
+        else { <span>ℹ️</span> }
+        <span>@Model.Mensaje</span>
+        <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert"
+                aria-label="Cerrar"></button>
+    </div>
+}

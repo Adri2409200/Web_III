@@ -1,31 +1,245 @@
+/* ============================================================
+   Ángel Animal — Hoja de estilos principal
+   Paleta pastel: verde menta, lavanda, rosa palo, celeste
+   ============================================================ */
+
+/* ── Variables de color ───────────────────────────────────── */
+:root {
+    --aa-mint:       #b2dfdb;   /* verde menta pastel          */
+    --aa-mint-dark:  #80cbc4;   /* verde menta más saturado    */
+    --aa-lavender:   #d1c4e9;   /* lavanda pastel              */
+    --aa-rose:       #f8bbd0;   /* rosa palo pastel            */
+    --aa-sky:        #b3e5fc;   /* celeste pastel              */
+    --aa-yellow:     #fff9c4;   /* amarillo pastel             */
+    --aa-text:       #4a4a4a;   /* texto principal             */
+    --aa-text-light: #757575;   /* texto secundario            */
+    --aa-white:      #ffffff;
+    --aa-bg:         #f9fafa;   /* fondo general               */
+    --aa-card-bg:    #ffffff;
+    --aa-border:     #e0f2f1;
+    --aa-shadow:     0 2px 12px rgba(0, 0, 0, 0.08);
+    --aa-radius:     12px;
+}
+
+/* ── Reset y base ─────────────────────────────────────────── */
 html {
-  font-size: 14px;
+    font-size: 15px;
+    scroll-behavior: smooth;
 }
 
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
-}
-
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
-
-html {
-  position: relative;
-  min-height: 100%;
+    html { font-size: 16px; }
 }
 
 body {
-  margin-bottom: 60px;
+    background-color: var(--aa-bg);
+    color: var(--aa-text);
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    margin-bottom: 80px;
 }
 
-.form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
-  color: var(--bs-secondary-color);
-  text-align: end;
+/* ── Navbar ───────────────────────────────────────────────── */
+.navbar-aa {
+    background: linear-gradient(135deg, var(--aa-mint) 0%, var(--aa-sky) 100%);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+    padding: 0.6rem 1rem;
 }
 
-.form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
-  text-align: start;
+.navbar-brand-aa {
+    font-size: 1.45rem;
+    font-weight: 700;
+    color: var(--aa-text) !important;
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.navbar-brand-aa .paw-icon {
+    font-size: 1.6rem;
+}
+
+.navbar-aa .nav-link {
+    color: var(--aa-text) !important;
+    font-weight: 500;
+    border-radius: 8px;
+    padding: 0.4rem 0.85rem !important;
+    transition: background 0.2s;
+}
+
+.navbar-aa .nav-link:hover,
+.navbar-aa .nav-link.active {
+    background-color: rgba(255,255,255,0.55);
+}
+
+.navbar-toggler {
+    border-color: var(--aa-mint-dark);
+}
+
+/* ── Dropdown menú ────────────────────────────────────────── */
+.dropdown-menu {
+    border-radius: var(--aa-radius);
+    border: 1px solid var(--aa-border);
+    box-shadow: var(--aa-shadow);
+}
+
+.dropdown-item:hover {
+    background-color: var(--aa-mint);
+    border-radius: 8px;
+}
+
+/* ── Footer ───────────────────────────────────────────────── */
+.footer-aa {
+    background: linear-gradient(135deg, var(--aa-mint) 0%, var(--aa-sky) 100%);
+    color: var(--aa-text);
+    padding: 1rem 0;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    font-size: 0.875rem;
+    box-shadow: 0 -2px 8px rgba(0,0,0,0.08);
+}
+
+/* ── Cards ────────────────────────────────────────────────── */
+.card-aa {
+    background: var(--aa-card-bg);
+    border: 1px solid var(--aa-border);
+    border-radius: var(--aa-radius);
+    box-shadow: var(--aa-shadow);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.card-aa:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+}
+
+.card-header-mint    { background-color: var(--aa-mint);     border-radius: var(--aa-radius) var(--aa-radius) 0 0; }
+.card-header-lavender{ background-color: var(--aa-lavender); border-radius: var(--aa-radius) var(--aa-radius) 0 0; }
+.card-header-rose    { background-color: var(--aa-rose);     border-radius: var(--aa-radius) var(--aa-radius) 0 0; }
+.card-header-sky     { background-color: var(--aa-sky);      border-radius: var(--aa-radius) var(--aa-radius) 0 0; }
+
+/* ── Página de inicio — stat cards ───────────────────────── */
+.stat-card {
+    border-radius: var(--aa-radius);
+    padding: 1.5rem;
+    text-align: center;
+    box-shadow: var(--aa-shadow);
+    transition: transform 0.2s;
+}
+
+.stat-card:hover { transform: translateY(-4px); }
+
+.stat-card .stat-icon { font-size: 2.8rem; margin-bottom: 0.5rem; }
+.stat-card .stat-number { font-size: 2rem; font-weight: 700; }
+.stat-card .stat-label  { font-size: 0.9rem; color: var(--aa-text-light); }
+
+.stat-mint     { background-color: var(--aa-mint);     }
+.stat-lavender { background-color: var(--aa-lavender); }
+.stat-rose     { background-color: var(--aa-rose);     }
+.stat-sky      { background-color: var(--aa-sky);      }
+
+/* ── Tablas ───────────────────────────────────────────────── */
+.table-aa {
+    border-radius: var(--aa-radius);
+    overflow: hidden;
+    box-shadow: var(--aa-shadow);
+}
+
+.table-aa thead th {
+    background-color: var(--aa-mint);
+    color: var(--aa-text);
+    font-weight: 600;
+    border-bottom: 2px solid var(--aa-mint-dark);
+}
+
+.table-aa tbody tr:hover {
+    background-color: #f0fafa;
+}
+
+/* ── Badges de estado ─────────────────────────────────────── */
+.badge-activo    { background-color: var(--aa-mint);     color: var(--aa-text); }
+.badge-inactivo  { background-color: #eeeeee;            color: #757575;        }
+.badge-pendiente { background-color: var(--aa-yellow);   color: #5d4037;        }
+.badge-completada{ background-color: var(--aa-mint);     color: var(--aa-text); }
+.badge-cancelada { background-color: var(--aa-rose);     color: #880e4f;        }
+
+.badge-aa {
+    padding: 0.4em 0.85em;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+/* ── Botones ──────────────────────────────────────────────── */
+.btn-aa-primary {
+    background-color: var(--aa-mint-dark);
+    border-color: var(--aa-mint-dark);
+    color: var(--aa-text);
+    border-radius: 8px;
+    font-weight: 500;
+    transition: filter 0.2s;
+}
+
+.btn-aa-primary:hover {
+    filter: brightness(0.92);
+    color: var(--aa-text);
+}
+
+.btn-aa-secondary {
+    background-color: var(--aa-lavender);
+    border-color: var(--aa-lavender);
+    color: var(--aa-text);
+    border-radius: 8px;
+    font-weight: 500;
+    transition: filter 0.2s;
+}
+
+.btn-aa-secondary:hover {
+    filter: brightness(0.92);
+    color: var(--aa-text);
+}
+
+.btn-aa-danger {
+    background-color: var(--aa-rose);
+    border-color: var(--aa-rose);
+    color: #880e4f;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: filter 0.2s;
+}
+
+.btn-aa-danger:hover {
+    filter: brightness(0.92);
+    color: #880e4f;
+}
+
+/* ── Formularios ──────────────────────────────────────────── */
+.form-control:focus,
+.form-select:focus {
+    border-color: var(--aa-mint-dark);
+    box-shadow: 0 0 0 0.2rem rgba(128, 203, 196, 0.35);
+}
+
+.form-label { font-weight: 500; color: var(--aa-text); }
+
+/* ── Page title ───────────────────────────────────────────── */
+.page-title {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--aa-text);
+    border-left: 5px solid var(--aa-mint-dark);
+    padding-left: 0.75rem;
+    margin-bottom: 1.25rem;
+}
+
+/* ── Alertas ──────────────────────────────────────────────── */
+.alert-aa-success { background-color: var(--aa-mint);     border-color: var(--aa-mint-dark); color: var(--aa-text); }
+.alert-aa-danger  { background-color: var(--aa-rose);     border-color: #f48fb1;             color: #880e4f; }
+.alert-aa-info    { background-color: var(--aa-sky);      border-color: #81d4fa;             color: #01579b; }
+
+/* ── Foco accesible ───────────────────────────────────────── */
+.btn:focus, .form-control:focus, .form-check-input:focus {
+    outline: 2px solid var(--aa-mint-dark);
+    outline-offset: 2px;
 }

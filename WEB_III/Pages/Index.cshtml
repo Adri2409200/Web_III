@@ -1,10 +1,83 @@
 ﻿@page
 @model IndexModel
 @{
-    ViewData["Title"] = "Home page";
+    ViewData["Title"] = "Inicio";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<!-- Hero -->
+<div class="text-center py-4 mb-4"
+     style="background: linear-gradient(135deg, var(--aa-mint) 0%, var(--aa-sky) 100%);
+            border-radius: var(--aa-radius); box-shadow: var(--aa-shadow);">
+    <div style="font-size: 4rem;">🐾</div>
+    <h1 class="fw-bold mt-2" style="color: var(--aa-text);">Bienvenido a Ángel Animal</h1>
+    <p class="text-muted mb-0">Sistema de gestión de citas veterinarias</p>
+</div>
+
+<!-- Stat cards -->
+<div class="row g-3 mb-4">
+    <div class="col-6 col-md-3">
+        <div class="stat-card stat-mint">
+            <div class="stat-icon">👤</div>
+            <div class="stat-number">@Model.TotalPropietarios</div>
+            <div class="stat-label">Propietarios</div>
+        </div>
+    </div>
+    <div class="col-6 col-md-3">
+        <div class="stat-card stat-lavender">
+            <div class="stat-icon">🐶</div>
+            <div class="stat-number">@Model.TotalMascotas</div>
+            <div class="stat-label">Mascotas</div>
+        </div>
+    </div>
+    <div class="col-6 col-md-3">
+        <div class="stat-card stat-sky">
+            <div class="stat-icon">🩺</div>
+            <div class="stat-number">@Model.TotalVeterinarios</div>
+            <div class="stat-label">Veterinarios</div>
+        </div>
+    </div>
+    <div class="col-6 col-md-3">
+        <div class="stat-card stat-rose">
+            <div class="stat-icon">📅</div>
+            <div class="stat-number">@Model.CitasPendientes</div>
+            <div class="stat-label">Citas pendientes</div>
+        </div>
+    </div>
+</div>
+
+<!-- Accesos rápidos -->
+<h2 class="page-title">Accesos rápidos</h2>
+<div class="row g-3">
+    <div class="col-sm-6 col-lg-3">
+        <a asp-page="/Propietarios/Crear" class="text-decoration-none">
+            <div class="card-aa p-3 text-center">
+                <div style="font-size:2rem;">➕👤</div>
+                <div class="fw-semibold mt-1">Nuevo propietario</div>
+            </div>
+        </a>
+    </div>
+    <div class="col-sm-6 col-lg-3">
+        <a asp-page="/Mascotas/Crear" class="text-decoration-none">
+            <div class="card-aa p-3 text-center">
+                <div style="font-size:2rem;">➕🐶</div>
+                <div class="fw-semibold mt-1">Nueva mascota</div>
+            </div>
+        </a>
+    </div>
+    <div class="col-sm-6 col-lg-3">
+        <a asp-page="/Veterinarios/Crear" class="text-decoration-none">
+            <div class="card-aa p-3 text-center">
+                <div style="font-size:2rem;">➕🩺</div>
+                <div class="fw-semibold mt-1">Nuevo veterinario</div>
+            </div>
+        </a>
+    </div>
+    <div class="col-sm-6 col-lg-3">
+        <a asp-page="/Citas/Crear" class="text-decoration-none">
+            <div class="card-aa p-3 text-center">
+                <div style="font-size:2rem;">➕📅</div>
+                <div class="fw-semibold mt-1">Nueva cita</div>
+            </div>
+        </a>
+    </div>
 </div>

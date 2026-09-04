@@ -1,45 +1,111 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - WEB_III</title>
+    <title>@ViewData["Title"] — Ángel Animal</title>
     <script type="importmap"></script>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/WEB_III.styles.css" asp-append-version="true" />
 </head>
 <body>
+
+    <!-- ── Navbar ────────────────────────────────────────────── -->
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-md navbar-aa">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-page="/Index">WEB_III</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
+
+                <!-- Marca -->
+                <a class="navbar-brand-aa" asp-page="/Index">
+                    <span class="paw-icon">🐾</span> Ángel Animal
+                </a>
+
+                <!-- Toggler móvil -->
+                <button class="navbar-toggler" type="button"
+                        data-bs-toggle="collapse" data-bs-target="#navMenu"
+                        aria-controls="navMenu" aria-expanded="false"
+                        aria-label="Abrir menú">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
+
+                <!-- Links -->
+                <div class="collapse navbar-collapse" id="navMenu">
+                    <ul class="navbar-nav ms-auto gap-1">
+
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
+                            <a class="nav-link" asp-page="/Index">🏠 Inicio</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a>
+
+                        <!-- Propietarios -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#"
+                               role="button" data-bs-toggle="dropdown"
+                               aria-expanded="false">
+                                👤 Propietarios
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" asp-page="/Propietarios/Index">Ver todos</a></li>
+                                <li><a class="dropdown-item" asp-page="/Propietarios/Crear">Nuevo propietario</a></li>
+                            </ul>
                         </li>
+
+                        <!-- Mascotas -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#"
+                               role="button" data-bs-toggle="dropdown"
+                               aria-expanded="false">
+                                🐶 Mascotas
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" asp-page="/Mascotas/Index">Ver todas</a></li>
+                                <li><a class="dropdown-item" asp-page="/Mascotas/Crear">Nueva mascota</a></li>
+                            </ul>
+                        </li>
+
+                        <!-- Veterinarios -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#"
+                               role="button" data-bs-toggle="dropdown"
+                               aria-expanded="false">
+                                🩺 Veterinarios
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" asp-page="/Veterinarios/Index">Ver todos</a></li>
+                                <li><a class="dropdown-item" asp-page="/Veterinarios/Crear">Nuevo veterinario</a></li>
+                            </ul>
+                        </li>
+
+                        <!-- Citas -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#"
+                               role="button" data-bs-toggle="dropdown"
+                               aria-expanded="false">
+                                📅 Citas
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" asp-page="/Citas/Index">Ver todas</a></li>
+                                <li><a class="dropdown-item" asp-page="/Citas/Crear">Nueva cita</a></li>
+                            </ul>
+                        </li>
+
                     </ul>
                 </div>
             </div>
         </nav>
     </header>
-    <div class="container">
-        <main role="main" class="pb-3">
+
+    <!-- ── Contenido principal ───────────────────────────────── -->
+    <div class="container mt-4">
+        <main role="main" class="pb-5">
             @RenderBody()
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2026 - WEB_III - <a asp-area="" asp-page="/Privacy">Privacy</a>
+    <!-- ── Footer ────────────────────────────────────────────── -->
+    <footer class="footer-aa">
+        <div class="container text-center">
+            🐾 &copy; @DateTime.Now.Year <strong>Ángel Animal</strong> — Clínica Veterinaria
         </div>
     </footer>
 
