@@ -1,0 +1,85 @@
+@page "{id:int}"
+@model WEB_III.Pages.Propietarios.DetalleModel
+@{
+    ViewData["Title"] = "Detalle propietario";
+}
+
+<h1 class="page-title">👤 @Model.Propietario.NombreCompleto</h1>
+
+<div class="row g-4">
+
+    <!-- Datos del propietario -->
+    <div class="col-md-5">
+        <div class="card-aa p-4">
+            <h5 class="fw-bold mb-3" style="color:var(--aa-text);">📋 Información</h5>
+            <dl class="row mb-0">
+                <dt class="col-5 text-muted">Nombre</dt>
+                <dd class="col-7">@Model.Propietario.Nombre</dd>
+
+                <dt class="col-5 text-muted">Apellido</dt>
+                <dd class="col-7">@Model.Propietario.Apellido</dd>
+
+                <dt class="col-5 text-muted">Teléfono</dt>
+                <dd class="col-7">@Model.Propietario.Telefono</dd>
+
+                <dt class="col-5 text-muted">Correo</dt>
+                <dd class="col-7">@Model.Propietario.Correo</dd>
+
+                <dt class="col-5 text-muted">Estado</dt>
+                <dd class="col-7">
+                    <span class="badge-aa badge-@Model.Propietario.Estado.ToString().ToLower()">
+                        @Model.Propietario.Estado
+                    </span>
+                </dd>
+            </dl>
+
+            <div class="d-flex gap-2 mt-4">
+                <a asp-page="Editar" asp-route-id="@Model.Propietario.Id"
+                   class="btn btn-aa-primary btn-sm">✏️ Editar</a>
+                <a asp-page="Index" class="btn btn-aa-secondary btn-sm">← Volver</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mascotas del propietario -->
+    <div class="col-md-7">
+        <div class="card-aa p-4">
+            <h5 class="fw-bold mb-3" style="color:var(--aa-text);">🐾 Mascotas registradas</h5>
+            @if (!Model.Mascotas.Any())
+            {
+                @await Html.PartialAsync("_Alerta", ("info", "Este propietario no tiene mascotas registradas."))
+            }
+            else
+            {
+                <div class="table-responsive">
+                    <table class="table table-hover table-aa align-middle mb-0">
+                        <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Especie</th>
+                                <th>Raza</th>
+                                <th>Estado</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var m in Model.Mascotas)
+                            {
+                                <tr>
+                                    <td class="fw-semibold">@m.Nombre</td>
+                                    <td>@m.Especie</td>
+                                    <td>@m.Raza</td>
+                                    <td>
+                                        <span class="badge-aa badge-@m.Estado.ToString().ToLower()">
+                                            @m.Estado
+                                        </span>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+        </div>
+    </div>
+
+</div>

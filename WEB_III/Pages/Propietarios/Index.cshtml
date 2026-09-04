@@ -1,0 +1,93 @@
+@page
+@model WEB_III.Pages.Propietarios.IndexModel
+@{
+    ViewData["Title"] = "Propietarios";
+}
+
+<h1 class="page-title">👤 Propietarios</h1>
+
+@if (!string.IsNullOrEmpty(Model.MensajeExito))
+{
+    @await Html.PartialAsync("_Alerta", ("success", Model.MensajeExito))
+}
+
+<!-- Barra de búsqueda + botón nuevo -->
+<div class="d-flex flex-wrap gap-2 justify-content-between align-items-center mb-3">
+    <form method="get" class="d-flex gap-2 flex-grow-1" style="max-width:420px;">
+        <input type="text" name="Busqueda" value="@Model.Busqueda"
+               class="form-control" placeholder="Buscar por nombre o apellido…" />
+        <button type="submit" class="btn btn-aa-primary">🔍</button>
+        @if (!string.IsNullOrWhiteSpace(Model.Busqueda))
+        {
+            <a asp-page="Index" class="btn btn-aa-secondary">✕</a>
+        }
+    </form>
+    <a asp-page="Crear" class="btn btn-aa-primary">➕ Nuevo</a>
+</div>
+
+<!-- Tabla -->
+@if (!Model.Propietarios.Any())
+{
+    @await Html.PartialAsync("_Alerta", ("info", "No se encontraron propietarios."))
+}
+else
+{
+    <div class="table-responsive">
+        <table class="table table-hover table-aa align-middle mb-0">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Nombre completo</th>
+                    <th>Teléfono</th>
+                    <th>Correo</th>
+                    <th>Estado</th>
+                    <th class="text-center">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var p in Model.Propietarios)
+                {
+                    <tr>
+                        <td class="text-muted">@p.Id</td>
+                        <td class="fw-semibold">@p.NombreCompleto</td>
+                        <td>@p.Telefono</td>
+                        <td>@p.Correo</td>
+                        <td>
+                            <span class="badge-aa badge-@p.Estado.ToString().ToLower()">
+                                @p.Estado
+                            </span>
+                        </td>
+                        <td class="text-center">
+                            <a asp-page="Detalle" asp-route-id="@p.Id"
+                               class="btn btn-sm btn-aa-secondary me-1" title="Ver detalle">👁️</a>
+                            <a asp-page="Editar" asp-route-id="@p.Id"
+                               class="btn btn-sm btn-aa-primary me-1" title="Editar">✏️</a>
+                            <button type="button" class="btn btn-sm btn-aa-danger"
+                                    title="Eliminar"
+                                    onclick="prepararEliminar(@p.Id)">🗑️</button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Formulario oculto para eliminar -->
+    <form id="formEliminar" method="post" asp-page="Eliminar">
+        @Html.AntiForgeryToken()
+        <input type="hidden" name="id" id="inputIdEliminar" />
+    </form>
+
+    @await Html.PartialAsync("_ModalEliminar")
+}
+
+@section Scripts {
+    <script>
+        function prepararEliminar(id) {
+            document.getElementById('inputIdEliminar').value = id;
+            new bootstrap.Modal(document.getElementById('modalEliminar')).show();
+        }
+        document.getElementById('btnConfirmarEliminar')
+            ?.addEventListener('click', () => document.getElementById('formEliminar').submit());
+    </script>
+}

@@ -1,0 +1,55 @@
+@page
+@model WEB_III.Pages.Propietarios.CrearModel
+@{
+    ViewData["Title"] = "Nuevo propietario";
+}
+
+<h1 class="page-title">➕ Nuevo propietario</h1>
+
+<div class="card-aa p-4" style="max-width:600px;">
+    <form method="post">
+        <div class="row g-3">
+
+            <div class="col-sm-6">
+                <label asp-for="Propietario.Nombre" class="form-label">Nombre</label>
+                <input asp-for="Propietario.Nombre" class="form-control" placeholder="Ej. Carlos" />
+                <span asp-validation-for="Propietario.Nombre" class="text-danger small"></span>
+            </div>
+
+            <div class="col-sm-6">
+                <label asp-for="Propietario.Apellido" class="form-label">Apellido</label>
+                <input asp-for="Propietario.Apellido" class="form-control" placeholder="Ej. Mendoza" />
+                <span asp-validation-for="Propietario.Apellido" class="text-danger small"></span>
+            </div>
+
+            <div class="col-sm-6">
+                <label asp-for="Propietario.Telefono" class="form-label">Teléfono</label>
+                <input asp-for="Propietario.Telefono" class="form-control" placeholder="Ej. 5551234567" />
+                <span asp-validation-for="Propietario.Telefono" class="text-danger small"></span>
+            </div>
+
+            <div class="col-sm-6">
+                <label asp-for="Propietario.Correo" class="form-label">Correo electrónico</label>
+                <input asp-for="Propietario.Correo" class="form-control" placeholder="Ej. correo@email.com" />
+                <span asp-validation-for="Propietario.Correo" class="text-danger small"></span>
+            </div>
+
+            <div class="col-sm-6">
+                <label asp-for="Propietario.Estado" class="form-label">Estado</label>
+                <select asp-for="Propietario.Estado"
+                        asp-items="Html.GetEnumSelectList<WEB_III.Models.Enums.EstadoPersona>()"
+                        class="form-select"></select>
+            </div>
+
+        </div>
+
+        <div class="d-flex gap-2 mt-4">
+            <button type="submit" class="btn btn-aa-primary">💾 Guardar</button>
+            <a asp-page="Index" class="btn btn-aa-secondary">✕ Cancelar</a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}
