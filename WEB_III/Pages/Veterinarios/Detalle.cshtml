@@ -1,0 +1,103 @@
+@page "{id:int}"
+@model WEB_III.Pages.Veterinarios.DetalleModel
+@{
+    ViewData["Title"] = "Detalle veterinario";
+}
+
+<h1 class="page-title">🩺 @Model.Veterinario.NombreCompleto</h1>
+
+<div class="row g-4">
+
+    <!-- Datos del veterinario -->
+    <div class="col-md-4">
+        <div class="card-aa p-4">
+            <h5 class="fw-bold mb-3">📋 Información</h5>
+            <dl class="row mb-0">
+                <dt class="col-5 text-muted">Nombre</dt>
+                <dd class="col-7">@Model.Veterinario.Nombre</dd>
+
+                <dt class="col-5 text-muted">Apellido</dt>
+                <dd class="col-7">@Model.Veterinario.Apellido</dd>
+
+                <dt class="col-5 text-muted">Especialidad</dt>
+                <dd class="col-7">
+                    <span class="badge-aa" style="background-color:var(--aa-sky);color:var(--aa-text);">
+                        @Model.Veterinario.Especialidad
+                    </span>
+                </dd>
+
+                <dt class="col-5 text-muted">Teléfono</dt>
+                <dd class="col-7">@Model.Veterinario.Telefono</dd>
+
+                <dt class="col-5 text-muted">Estado</dt>
+                <dd class="col-7">
+                    <span class="badge-aa badge-@Model.Veterinario.Estado.ToString().ToLower()">
+                        @Model.Veterinario.Estado
+                    </span>
+                </dd>
+            </dl>
+
+            <div class="d-flex gap-2 mt-4">
+                <a asp-page="Editar" asp-route-id="@Model.Veterinario.Id"
+                   class="btn btn-aa-primary btn-sm">✏️ Editar</a>
+                <a asp-page="Index" class="btn btn-aa-secondary btn-sm">← Volver</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Citas asignadas -->
+    <div class="col-md-8">
+        <div class="card-aa p-4">
+            <h5 class="fw-bold mb-3">📅 Citas asignadas</h5>
+
+            @if (!Model.Citas.Any())
+            {
+                @await Html.PartialAsync("_Alerta", ("info", "Este veterinario no tiene citas registradas."))
+            }
+            else
+            {
+                <!-- Resumen rápido -->
+                <div class="d-flex gap-3 mb-3 flex-wrap">
+                    <span class="badge-aa badge-pendiente">
+                        Pendientes: @Model.Citas.Count(c => c.Estado == WEB_III.Models.Enums.EstadoCita.Pendiente)
+                    </span>
+                    <span class="badge-aa badge-completada">
+                        Completadas: @Model.Citas.Count(c => c.Estado == WEB_III.Models.Enums.EstadoCita.Completada)
+                    </span>
+                    <span class="badge-aa badge-cancelada">
+                        Canceladas: @Model.Citas.Count(c => c.Estado == WEB_III.Models.Enums.EstadoCita.Cancelada)
+                    </span>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table table-hover table-aa align-middle mb-0">
+                        <thead>
+                            <tr>
+                                <th>Fecha y hora</th>
+                                <th>Mascota</th>
+                                <th>Motivo</th>
+                                <th>Estado</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var c in Model.Citas.OrderByDescending(c => c.FechaHoraAtencion))
+                            {
+                                <tr>
+                                    <td>@c.FechaHoraAtencion.ToString("dd/MM/yyyy HH:mm")</td>
+                                    <td>@(c.Mascota?.Nombre ?? "—")</td>
+                                    <td>@c.Motivo</td>
+                                    <td>
+                                        <span class="badge-aa badge-@c.Estado.ToString().ToLower()">
+                                            @c.Estado
+                                        </span>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+        </div>
+    </div>
+
+</div>
