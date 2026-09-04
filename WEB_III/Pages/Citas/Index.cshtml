@@ -1,0 +1,103 @@
+@page
+@model WEB_III.Pages.Citas.IndexModel
+@using WEB_III.Models.Enums
+@{
+    ViewData["Title"] = "Citas";
+}
+
+<h1 class="page-title">📅 Citas</h1>
+
+@if (!string.IsNullOrEmpty(Model.MensajeExito))
+{
+    @await Html.PartialAsync("_Alerta", ("success", Model.MensajeExito))
+}
+
+<!-- Filtro por estado + botón nuevo -->
+<div class="d-flex flex-wrap gap-2 justify-content-between align-items-center mb-3">
+    <form method="get" class="d-flex gap-2 align-items-center flex-wrap">
+        <label class="form-label mb-0 fw-semibold">Filtrar:</label>
+        <a asp-page="Index" class="btn btn-sm @(string.IsNullOrEmpty(Model.FiltroEstado) ? "btn-aa-primary" : "btn-aa-secondary")">
+            Todas
+        </a>
+        @foreach (var estado in Enum.GetValues<EstadoCita>())
+        {
+            <a asp-page="Index" asp-route-FiltroEstado="@estado"
+               class="btn btn-sm @(Model.FiltroEstado == estado.ToString() ? "btn-aa-primary" : "btn-aa-secondary")">
+                @estado
+            </a>
+        }
+    </form>
+    <a asp-page="Crear" class="btn btn-aa-primary">➕ Nueva cita</a>
+</div>
+
+<!-- Tabla -->
+@if (!Model.Citas.Any())
+{
+    @await Html.PartialAsync("_Alerta", ("info", "No hay citas con el filtro seleccionado."))
+}
+else
+{
+    <div class="table-responsive">
+        <table class="table table-hover table-aa align-middle mb-0">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Mascota</th>
+                    <th>Veterinario</th>
+                    <th>Fecha y hora</th>
+                    <th>Motivo</th>
+                    <th>Estado</th>
+                    <th class="text-center">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var c in Model.Citas.OrderByDescending(c => c.FechaHoraAtencion))
+                {
+                    <tr>
+                        <td class="text-muted">@c.Id</td>
+                        <td class="fw-semibold">@(c.Mascota?.Nombre ?? "—")</td>
+                        <td>@(c.Veterinario?.NombreCompleto ?? "—")</td>
+                        <td>@c.FechaHoraAtencion.ToString("dd/MM/yyyy HH:mm")</td>
+                        <td>
+                            <span title="@c.Motivo">
+                                @(c.Motivo.Length > 35 ? c.Motivo[..35] + "…" : c.Motivo)
+                            </span>
+                        </td>
+                        <td>
+                            <span class="badge-aa badge-@c.Estado.ToString().ToLower()">
+                                @c.Estado
+                            </span>
+                        </td>
+                        <td class="text-center">
+                            <a asp-page="Detalle" asp-route-id="@c.Id"
+                               class="btn btn-sm btn-aa-secondary me-1" title="Ver detalle">👁️</a>
+                            <a asp-page="Editar" asp-route-id="@c.Id"
+                               class="btn btn-sm btn-aa-primary me-1" title="Editar">✏️</a>
+                            <button type="button" class="btn btn-sm btn-aa-danger"
+                                    title="Eliminar"
+                                    onclick="prepararEliminar(@c.Id)">🗑️</button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <form id="formEliminar" method="post" asp-page="Eliminar">
+        @Html.AntiForgeryToken()
+        <input type="hidden" name="id" id="inputIdEliminar" />
+    </form>
+
+    @await Html.PartialAsync("_ModalEliminar")
+}
+
+@section Scripts {
+    <script>
+        function prepararEliminar(id) {
+            document.getElementById('inputIdEliminar').value = id;
+            new bootstrap.Modal(document.getElementById('modalEliminar')).show();
+        }
+        document.getElementById('btnConfirmarEliminar')
+            ?.addEventListener('click', () => document.getElementById('formEliminar').submit());
+    </script>
+}

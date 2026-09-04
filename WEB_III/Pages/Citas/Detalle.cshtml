@@ -1,0 +1,92 @@
+@page "{id:int}"
+@model WEB_III.Pages.Citas.DetalleModel
+@using WEB_III.Models.Enums
+@{
+    ViewData["Title"] = "Detalle de cita";
+
+    // Color de card según estado
+    var headerClass = Model.Cita.Estado switch
+    {
+        EstadoCita.Pendiente  => "card-header-sky",
+        EstadoCita.Completada => "card-header-mint",
+        EstadoCita.Cancelada  => "card-header-rose",
+        _                     => "card-header-mint"
+    };
+}
+
+<h1 class="page-title">📅 Detalle de cita #@Model.Cita.Id</h1>
+
+<div class="card-aa" style="max-width:700px;">
+
+    <!-- Encabezado con color según estado -->
+    <div class="p-3 @headerClass d-flex justify-content-between align-items-center">
+        <span class="fw-bold fs-5">
+            🐾 @(Model.Cita.Mascota?.Nombre ?? "—")
+            &nbsp;·&nbsp;
+            🩺 @(Model.Cita.Veterinario?.NombreCompleto ?? "—")
+        </span>
+        <span class="badge-aa badge-@Model.Cita.Estado.ToString().ToLower()">
+            @Model.Cita.Estado
+        </span>
+    </div>
+
+    <div class="p-4">
+        <dl class="row">
+            <dt class="col-sm-4 text-muted">Mascota</dt>
+            <dd class="col-sm-8 fw-semibold">@(Model.Cita.Mascota?.Nombre ?? "—")</dd>
+
+            <dt class="col-sm-4 text-muted">Propietario</dt>
+            <dd class="col-sm-8">@(Model.Cita.Mascota?.Propietario?.NombreCompleto ?? "—")</dd>
+
+            <dt class="col-sm-4 text-muted">Veterinario</dt>
+            <dd class="col-sm-8">@(Model.Cita.Veterinario?.NombreCompleto ?? "—")</dd>
+
+            <dt class="col-sm-4 text-muted">Especialidad</dt>
+            <dd class="col-sm-8">
+                <span class="badge-aa" style="background-color:var(--aa-sky);color:var(--aa-text);">
+                    @(Model.Cita.Veterinario?.Especialidad ?? "—")
+                </span>
+            </dd>
+
+            <dt class="col-sm-4 text-muted">Fecha y hora</dt>
+            <dd class="col-sm-8">@Model.Cita.FechaHoraAtencion.ToString("dddd dd/MM/yyyy 'a las' HH:mm")</dd>
+
+            <dt class="col-sm-4 text-muted">Estado</dt>
+            <dd class="col-sm-8">
+                <span class="badge-aa badge-@Model.Cita.Estado.ToString().ToLower()">
+                    @Model.Cita.Estado
+                </span>
+            </dd>
+        </dl>
+
+        <!-- Motivo -->
+        <div class="mb-3">
+            <p class="fw-semibold mb-1">📋 Motivo de la consulta</p>
+            <div class="p-3 rounded-3" style="background-color:var(--aa-yellow);">
+                @Model.Cita.Motivo
+            </div>
+        </div>
+
+        <!-- Diagnóstico -->
+        <div class="mb-3">
+            <p class="fw-semibold mb-1">🔬 Diagnóstico</p>
+            @if (string.IsNullOrWhiteSpace(Model.Cita.Diagnostico))
+            {
+                @await Html.PartialAsync("_Alerta", ("info", "Aún no se ha registrado un diagnóstico."))
+            }
+            else
+            {
+                <div class="p-3 rounded-3" style="background-color:var(--aa-mint);">
+                    @Model.Cita.Diagnostico
+                </div>
+            }
+        </div>
+
+        <div class="d-flex gap-2 mt-3">
+            <a asp-page="Editar" asp-route-id="@Model.Cita.Id"
+               class="btn btn-aa-primary btn-sm">✏️ Editar</a>
+            <a asp-page="Index" class="btn btn-aa-secondary btn-sm">← Volver</a>
+        </div>
+    </div>
+
+</div>
