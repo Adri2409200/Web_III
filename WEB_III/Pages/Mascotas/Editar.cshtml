@@ -1,0 +1,74 @@
+@page "{id:int}"
+@model WEB_III.Pages.Mascotas.EditarModel
+@{
+    ViewData["Title"] = "Editar mascota";
+}
+
+<h1 class="page-title">✏️ Editar mascota</h1>
+
+<div class="card-aa p-4" style="max-width:650px;">
+    <form method="post">
+        <input type="hidden" asp-for="Mascota.Id" />
+
+        <div class="row g-3">
+
+            <div class="col-sm-6">
+                <label asp-for="Mascota.Nombre" class="form-label">Nombre</label>
+                <input asp-for="Mascota.Nombre" class="form-control" />
+                <span asp-validation-for="Mascota.Nombre" class="text-danger small"></span>
+            </div>
+
+            <div class="col-sm-6">
+                <label asp-for="Mascota.PropietarioId" class="form-label">Propietario</label>
+                <select asp-for="Mascota.PropietarioId"
+                        asp-items="Model.PropietariosSelect"
+                        class="form-select">
+                    <option value="">— Seleccionar —</option>
+                </select>
+                <span asp-validation-for="Mascota.PropietarioId" class="text-danger small"></span>
+            </div>
+
+            <div class="col-sm-6">
+                <label asp-for="Mascota.Especie" class="form-label">Especie</label>
+                <input asp-for="Mascota.Especie" class="form-control" />
+                <span asp-validation-for="Mascota.Especie" class="text-danger small"></span>
+            </div>
+
+            <div class="col-sm-6">
+                <label asp-for="Mascota.Raza" class="form-label">Raza</label>
+                <input asp-for="Mascota.Raza" class="form-control" />
+                <span asp-validation-for="Mascota.Raza" class="text-danger small"></span>
+            </div>
+
+            <div class="col-sm-6">
+                <label asp-for="Mascota.Color" class="form-label">Color</label>
+                <input asp-for="Mascota.Color" class="form-control" />
+                <span asp-validation-for="Mascota.Color" class="text-danger small"></span>
+            </div>
+
+            <div class="col-sm-6">
+                <label asp-for="Mascota.FechaNacimiento" class="form-label">Fecha de nacimiento</label>
+                <input asp-for="Mascota.FechaNacimiento" type="date" class="form-control" />
+                <span asp-validation-for="Mascota.FechaNacimiento" class="text-danger small"></span>
+            </div>
+
+            <div class="col-sm-6">
+                <label asp-for="Mascota.Estado" class="form-label">Estado</label>
+                <select asp-for="Mascota.Estado"
+                        asp-items="Html.GetEnumSelectList<WEB_III.Models.Enums.EstadoMascota>()"
+                        class="form-select"></select>
+            </div>
+
+        </div>
+
+        <div class="d-flex gap-2 mt-4">
+            <button type="submit" class="btn btn-aa-primary">💾 Guardar cambios</button>
+            <a asp-page="Index" class="btn btn-aa-secondary">✕ Cancelar</a>
+        </div>
+
+    </form>
+</div>
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}

@@ -1,0 +1,91 @@
+@page "{id:int}"
+@model WEB_III.Pages.Mascotas.DetalleModel
+@{
+    ViewData["Title"] = "Detalle mascota";
+}
+
+<h1 class="page-title">🐾 @Model.Mascota.Nombre</h1>
+
+<div class="row g-4">
+
+    <!-- Datos de la mascota -->
+    <div class="col-md-5">
+        <div class="card-aa p-4">
+            <h5 class="fw-bold mb-3">📋 Información</h5>
+            <dl class="row mb-0">
+                <dt class="col-5 text-muted">Nombre</dt>
+                <dd class="col-7">@Model.Mascota.Nombre</dd>
+
+                <dt class="col-5 text-muted">Propietario</dt>
+                <dd class="col-7">@(Model.Mascota.Propietario?.NombreCompleto ?? "—")</dd>
+
+                <dt class="col-5 text-muted">Especie</dt>
+                <dd class="col-7">@Model.Mascota.Especie</dd>
+
+                <dt class="col-5 text-muted">Raza</dt>
+                <dd class="col-7">@Model.Mascota.Raza</dd>
+
+                <dt class="col-5 text-muted">Color</dt>
+                <dd class="col-7">@Model.Mascota.Color</dd>
+
+                <dt class="col-5 text-muted">Nacimiento</dt>
+                <dd class="col-7">@Model.Mascota.FechaNacimiento.ToString("dd/MM/yyyy")</dd>
+
+                <dt class="col-5 text-muted">Estado</dt>
+                <dd class="col-7">
+                    <span class="badge-aa badge-@Model.Mascota.Estado.ToString().ToLower()">
+                        @Model.Mascota.Estado
+                    </span>
+                </dd>
+            </dl>
+
+            <div class="d-flex gap-2 mt-4">
+                <a asp-page="Editar" asp-route-id="@Model.Mascota.Id"
+                   class="btn btn-aa-primary btn-sm">✏️ Editar</a>
+                <a asp-page="Index" class="btn btn-aa-secondary btn-sm">← Volver</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Historial de citas -->
+    <div class="col-md-7">
+        <div class="card-aa p-4">
+            <h5 class="fw-bold mb-3">📅 Historial de citas</h5>
+            @if (!Model.Citas.Any())
+            {
+                @await Html.PartialAsync("_Alerta", ("info", "Esta mascota no tiene citas registradas."))
+            }
+            else
+            {
+                <div class="table-responsive">
+                    <table class="table table-hover table-aa align-middle mb-0">
+                        <thead>
+                            <tr>
+                                <th>Fecha</th>
+                                <th>Veterinario</th>
+                                <th>Motivo</th>
+                                <th>Estado</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var c in Model.Citas.OrderByDescending(c => c.FechaHoraAtencion))
+                            {
+                                <tr>
+                                    <td>@c.FechaHoraAtencion.ToString("dd/MM/yyyy HH:mm")</td>
+                                    <td>@(c.Veterinario?.NombreCompleto ?? "—")</td>
+                                    <td>@c.Motivo</td>
+                                    <td>
+                                        <span class="badge-aa badge-@c.Estado.ToString().ToLower()">
+                                            @c.Estado
+                                        </span>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+        </div>
+    </div>
+
+</div>
